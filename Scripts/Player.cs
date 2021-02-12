@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 
 
-
 public class Character
 {
     public GameObject gameObject;
@@ -16,16 +15,18 @@ public class Character
     const float MAX_X_SPEED_NORMAL = 5f;
     const float MAX_X_SPEED_STICKY = 15f;
     const float ACCELERATION = 10f;
-    const float JUMP_FORCE = 7f;
-    const float STICKY_BOOST = 3f;
+    const float JUMP_FORCE = 10f;
+    //const float STICKY_BOOST = 3f;
     const float STICKY_SPEED_DOWN = -3f;
-    const float STICKY_JUMP_BOOST_X = 10f;
+    const float STICKY_JUMP_BOOST_X = 5f;
     const float STICKY_JUMP_BOOST_Y = 10f;
     const float DECELERATION = 12f;
-    bool isGround = false;
+    const int MORE_JUMP_COUNT = 1; 
+    public bool isGround = false;
     bool isSticky = false;
     float stickyPos = 0;
     float timePreviousJump = 0;
+    int moreJump = MORE_JUMP_COUNT;
     const float MAX_X_SPEED = MAX_X_SPEED_STICKY;
     float moveXKey = 0;
     float scaleX;
@@ -176,35 +177,36 @@ public class Character
     public void jump(float jumpInput, float timePreviousJumpButton)
     {
         timePreviousJump+= timePreviousJumpButton;
+
         if (jumpInput > 0)
         {
             if (timePreviousJump > 0.1f)
             {
                 if (isGround == true)
                 {
-                    if (isSticky == false)
-                    {
-                        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, rigidbody2D.velocity.y + JUMP_FORCE);
-                        
-                    }
-                    else
-                    {
-                        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, rigidbody2D.velocity.y + STICKY_JUMP_BOOST_Y);
-                    }
-                    
+                    rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
+                    moreJump = MORE_JUMP_COUNT;
                 }
                 else if (isSticky == true)
                 {
                     if (forHoney() > 0)
                     {
-                        rigidbody2D.velocity = new Vector2(-STICKY_JUMP_BOOST_X, STICKY_JUMP_BOOST_Y);
+                        rigidbody2D.velocity = new Vector2(-STICKY_JUMP_BOOST_X, JUMP_FORCE);
                     }
                     else if (forHoney() < 0)
                     {
-                        rigidbody2D.velocity = new Vector2(STICKY_JUMP_BOOST_X, STICKY_JUMP_BOOST_Y);
+                        rigidbody2D.velocity = new Vector2(STICKY_JUMP_BOOST_X, JUMP_FORCE);
                     }
+                    moreJump = MORE_JUMP_COUNT;
+                }
+                else if (moreJump != 0)
+                {
+                    rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
+                    moreJump--;
+                    
                 }
                 timePreviousJump = 0;
+                
             }
         }
     }
@@ -239,7 +241,6 @@ public class Character
         win.SetActive(true);
     }
 }
-
 
 
 public class Player : MonoBehaviour
@@ -280,8 +281,9 @@ public class Player : MonoBehaviour
     void OnTriggerStay2D(Collider2D col)
     {               //если в тригере что то есть и у обьекта тег "ground"
 
-        if (col.tag == "Floor")
+        if (col.tag == "Floor") 
         {
+            character.setIsSticky(false);
             if (character.getIsGround() == false) character.doSplash();
             character.setIsGround(true);
         }      
@@ -291,14 +293,19 @@ public class Player : MonoBehaviour
     void OnTriggerExit2D(Collider2D col)
     {              //если из триггера что то вышло и у обьекта тег "ground"
         if (col.tag == "Floor") character.setIsGround(false);     //то вЫключаем переменную "на земле"
+
     }
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Sticky")
+        if (character.getIsGround() == false)
         {
-            character.setIsSticky(true);
-            character.setStickyPos(col.GetContact(1).point.x);
+            if (col.gameObject.tag == "Floor")
+            {
+                character.setIsSticky(true);
+                character.setStickyPos(col.GetContact(1).point.x);
+            }
         }
+
         if (col.gameObject.tag == "Death")
         {
             character.death();
@@ -310,9 +317,9 @@ public class Player : MonoBehaviour
     }
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Sticky")
+        if (col.gameObject.tag == "Floor")
         {
             character.setIsSticky(false);
-        }
+        }   
     }
 }
