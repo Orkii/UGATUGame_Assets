@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Floor
+  - Sticky
+  - Death
+  - Enemy
+  - BG BG
+  - BG
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - BG
+  - BG BG
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BackGround 1
+    uniqueID: 3490423775
+    locked: 0
+  - name: BackGround 2
+    uniqueID: 3634793837
+    locked: 0
+  - name: FrontGround
+    uniqueID: 512579341
+    locked: 0
+  - name: DecorBack
+    uniqueID: 3249857847
+    locked: 0
+  - name: Player
+    uniqueID: 1711481319
+    locked: 0
+  - name: DecorFront
+    uniqueID: 2921482745
+    locked: 0
