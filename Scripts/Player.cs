@@ -34,8 +34,7 @@ public class Character
     float moveX_X;
     float moveX_X4;
 
-    float NORMOLIZE_SPEED_X; 
-
+    float NORMOLIZE_SPEED_X;
 
     public Character(GameObject it)
     {
@@ -129,7 +128,7 @@ public class Character
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, STICKY_SPEED_DOWN);
             }
         }
-    }
+    }   
     public void moveX(float direction)
     {
 
@@ -261,7 +260,6 @@ public class Player : MonoBehaviour
         character = new Character(gameObject);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
 
@@ -297,12 +295,16 @@ public class Player : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D col)
     {
+       // Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (character.getIsGround() == false)
         {
             if (col.gameObject.tag == "Floor")
             {
                 character.setIsSticky(true);
-                character.setStickyPos(col.GetContact(1).point.x);
+                character.setStickyPos(col.GetContact(1).point.x); //как работает?
+                ///
+               // if (moveInput.x == 0)
+                 //   character.setIsSticky(false);
             }
         }
 
@@ -320,6 +322,7 @@ public class Player : MonoBehaviour
         if (col.gameObject.tag == "Floor")
         {
             character.setIsSticky(false);
-        }   
+
+        }
     }
 }
