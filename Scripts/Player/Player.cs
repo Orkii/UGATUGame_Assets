@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 
 
-public class Character
+
+
+
+public class Player : MonoBehaviour
 {
-    public GameObject gameObject;
-    public Rigidbody2D rigidbody2D;
-    ParticleSystem particleSystem;
+    const float fixedDeltaTime = 0.02f;
     GameObject canvas;
     const float MAX_X_SPEED_NORMAL = 5f;
     const float MAX_X_SPEED_STICKY = 15f;
@@ -19,25 +20,27 @@ public class Character
     //const float STICKY_BOOST = 3f;
     const float STICKY_SPEED_DOWN = -3f;
     const float STICKY_JUMP_BOOST_X = 5f;
-    const float STICKY_JUMP_BOOST_Y = 10f;
     const float DECELERATION = 12f;
-    public const int MORE_JUMP_COUNT = 1; 
+    public const int MORE_JUMP_COUNT = 1;
     public bool isGround = false;
     bool isSticky = false;
     float stickyPos = 0;
     float timePreviousJump = 0;
+
     int moreJump = MORE_JUMP_COUNT;
     const float MAX_X_SPEED = MAX_X_SPEED_STICKY;
     float moveXKey = 0;
     float scaleX;
 
     public bool roof = false;
-    float moveX_X;
-    float moveX_X4;
+    float moveX_X = ACCELERATION * fixedDeltaTime;
 
-    float NORMOLIZE_SPEED_X;
+    float moveX_X4 = ACCELERATION * fixedDeltaTime * 4;
 
-    public Character(GameObject it)
+    float NORMOLIZE_SPEED_X = DECELERATION * fixedDeltaTime;
+    
+    /*
+    public (GameObject it)
     {
         gameObject = it;
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
@@ -45,12 +48,15 @@ public class Character
         canvas = GameObject.Find("Canvas");
         scaleX = gameObject.transform.localScale.x;
 
-        moveX_X = ACCELERATION * Time.fixedDeltaTime;
-        moveX_X4 = moveX_X * 4;
+        
+        
 
         NORMOLIZE_SPEED_X = DECELERATION * Time.fixedDeltaTime;
-    }
 
+
+
+    }
+    */
     public void setRoof(bool b)
     {
         roof = b;
@@ -81,10 +87,7 @@ public class Character
     {
         return isGround;
     }
-    public void setMAX_X_SPEED(float b)
-    {
-        //MAX_X_SPEED = b;
-    }
+
     public void setMoreJump(int b)
     {
         moreJump = b;
@@ -97,9 +100,9 @@ public class Character
             {
 
                 if (rigidbody2D.velocity.x > MAX_X_SPEED) rigidbody2D.velocity = new Vector2(MAX_X_SPEED, rigidbody2D.velocity.y);// Много скорости
-               
+
                 if (isSticky == false) rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x - DECELERATION * Time.fixedDeltaTime, rigidbody2D.velocity.y);
-                
+
 
             }
             else//--
@@ -108,18 +111,17 @@ public class Character
                 if (rigidbody2D.velocity.x < -MAX_X_SPEED) rigidbody2D.velocity = new Vector2(-MAX_X_SPEED, rigidbody2D.velocity.y);
 
                 if (isSticky == false) rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x + DECELERATION * Time.fixedDeltaTime, rigidbody2D.velocity.y);
-                
-            }   
+
+            }
         }
-      
-        
+
         if ((moveXKey == 0))
         {
             if (rigidbody2D.velocity.x > 0.1)
             {
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x - NORMOLIZE_SPEED_X, rigidbody2D.velocity.y);
             }
-            else if(rigidbody2D.velocity.x < -0.1)
+            else if (rigidbody2D.velocity.x < -0.1)
             {
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x + NORMOLIZE_SPEED_X, rigidbody2D.velocity.y);
             }
@@ -131,17 +133,7 @@ public class Character
 
 
         }
-
-        /*
-        if ((isSticky == true) && (isGround == false))
-        {
-            if (rigidbody2D.velocity.y < STICKY_SPEED_DOWN)
-            {
-                rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, STICKY_SPEED_DOWN);
-            }
-        }
-        */
-    }   
+    }
     public void moveX(float direction)
     {
 
@@ -149,7 +141,7 @@ public class Character
 
         if (direction > 0)
         {
-            
+
             if (Math.Sign(rigidbody2D.velocity.x) != direction)
             {
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x + moveX_X4, rigidbody2D.velocity.y);
@@ -171,7 +163,7 @@ public class Character
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x - moveX_X, rigidbody2D.velocity.y);
             }
         }
-        
+
         if (isSticky == true)
         {
             if (direction != 0)
@@ -182,23 +174,23 @@ public class Character
                 }
             }
         }
-        
+
 
         normolizeSpeed();
         flip();
     }
     public void flip()
     {
-        if(rigidbody2D.velocity.x > 0)
+        if (rigidbody2D.velocity.x > 0)
             gameObject.transform.localScale = new Vector3(scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         else if (rigidbody2D.velocity.x < 0)
             gameObject.transform.localScale = new Vector3(-scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 
-        
+
     }
     public void jump(float jumpInput, float timePreviousJumpButton)
     {
-        timePreviousJump+= timePreviousJumpButton;
+        timePreviousJump += timePreviousJumpButton;
 
         if (jumpInput > 0)
         {
@@ -231,7 +223,7 @@ public class Character
                     }
                 }
                 timePreviousJump = 0;
-                
+
             }
         }
     }
@@ -241,8 +233,8 @@ public class Character
         {
             //Debug.Log("Touch pos " + (gameObject.transform.position.x - stickyPos));
 
-            if     ((gameObject.transform.position.x - stickyPos) > 0) return -1;
-            else if((gameObject.transform.position.x - stickyPos) < 0) return 1;
+            if ((gameObject.transform.position.x - stickyPos) > 0) return -1;
+            else if ((gameObject.transform.position.x - stickyPos) < 0) return 1;
         }
         return 0;
     }
@@ -250,56 +242,76 @@ public class Character
     {
         particleSystem.Play();
     }
-    public void death()
+    public virtual void death()
     {
         respawn();
     }
-    public void respawn()
+    public virtual void respawn()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("Respawn");
         gameObject.transform.position = spawnPoint.transform.position;
     }
-    public void win()
+    public  void win()
     {
         GameObject win;
         win = canvas.transform.Find("Win").gameObject;
         win.SetActive(true);
     }
-}
-
-
-public class Player : MonoBehaviour
-{
 
 
 
-    public Character character;
     private Rigidbody2D rb;
     float timePreviousJumpButton = 0;
-    public Character getCharacter()
-    {
-        return character;
-    }
+
+    AudioSource soundJump;
+    AudioSource fallSound;
+    Rigidbody2D rigidbody2D;
+    ParticleSystem particleSystem;
+
+
 
     void Start()
     {
-        character = new Character(gameObject);
+        soundJump = GetComponent<AudioSource>();
+        fallSound = GetComponent<AudioSource>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
+        particleSystem = GetComponent<ParticleSystem>();
+        scaleX = gameObject.transform.localScale.x;
+
+
+    }
+    float jumpInput = 0;
+    Vector2 moveInput;
+    void Update()
+    {
+        moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+        if (Input.GetKeyDown("space")) jumpInput = 1;
+        if (Input.GetKeyUp("space")) jumpInput = 0;
+
+
+        if (jumpInput == 1)
+        {
+            timePreviousJumpButton = 0f;
+        }
+        timePreviousJumpButton += Time.deltaTime;
+
     }
 
     void FixedUpdate()
     {
 
-        Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        float jumpInput = Input.GetAxisRaw("Jump");
 
-        
-        if (jumpInput == 1)
-        {
-            timePreviousJumpButton = 0f;
-        }
-        timePreviousJumpButton += Time.fixedDeltaTime;
-        character.jump(jumpInput, timePreviousJumpButton);
-        character.moveX(moveInput.x);
+        jump(jumpInput, timePreviousJumpButton);
+        moveX(moveInput.x);
+
+
+
+
+
+
+
+
 
     }
     void OnTriggerStay2D(Collider2D col)
@@ -307,53 +319,56 @@ public class Player : MonoBehaviour
 
         if (col.tag == "Floor")
         {
-            if (!character.roof)
+            if (!roof)
             {
-                character.setIsSticky(false);
-                if (character.getIsGround() == false) character.doSplash();
-                character.setIsGround(true);
+                setIsSticky(false);
+                if (getIsGround() == false) doSplash();
+                setIsGround(true);
             }
         }      
-        else if (col.tag == "Death") character.death();
-        else if (col.tag == "Finish") character.win();
+        else if (col.tag == "Death") death();
+        else if (col.tag == "Finish") win();
     }
     void OnTriggerExit2D(Collider2D col)
     {              //если из триггера что то вышло и у обьекта тег "ground"
-        if (col.tag == "Floor") character.setIsGround(false);     //то вЫключаем переменную "на земле"
+        if (col.tag == "Floor") setIsGround(false);     //то вЫключаем переменную "на земле"
 
     }
     void OnCollisionStay2D(Collision2D col)
     {
-        if (character.getIsGround() == false)
+        if (getIsGround() == false)
         {
             if (col.gameObject.tag == "Floor")
             {
-                character.setIsSticky(true);
-                character.setStickyPos(col.GetContact(1).point.x); //как работает?
+                setIsSticky(true);
+                setStickyPos(col.GetContact(1).point.x); //как работает?
                 ///
                // if (moveInput.x == 0)
-                 //   character.setIsSticky(false);
+                 //   setIsSticky(false);
             }
         }
 
         if (col.gameObject.tag == "Death")
         {
-            character.death();
+            death();
         }
         else if (col.gameObject.tag == "Enemy")
         {
-            character.death();
+            death();
         }
     }
     void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag == "Floor")
         {
-            character.setIsSticky(false);
-            if (!character.roof)
+            setIsSticky(false);
+            if (!roof)
             {
-                character.setMoreJump(Character.MORE_JUMP_COUNT);
+                setMoreJump(MORE_JUMP_COUNT);
             }
         }
     }
+
+
+    
 }

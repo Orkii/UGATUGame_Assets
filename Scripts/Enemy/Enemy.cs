@@ -6,7 +6,7 @@ using UnityEngine;
 //using Random = UnityEngine.Random;
 
 
-public class Enemy : MonoBehaviour
+public class Enemy : Player
 {
     bool trigerRight = false;
     bool trigerLeft = false;
@@ -19,31 +19,23 @@ public class Enemy : MonoBehaviour
     {
         trigerRight = b;
     }
-    public void setIsGround(bool b)
-    {
-        enemy.setIsGround(b);
-    }
+    override public void death() { }
 
 
+    override public void respawn() { }
 
-    public int i;
+
+    public int i = 0;
     float jumpInput = 0;
     float timePreviousJumpButton = 0;
-    public Character enemy;
     public List<GameObject> areasEnemy = new List<GameObject>();
 
-    void Start()
-    {
-        i = 0;
-        enemy = new Character(gameObject);
-    }
+
     float sign = 0;
     float prevSign = 0;
     void FixedUpdate()
     {
-
-        //Debug.Log("areasEnemy = " + areasEnemy.Count + "   i = " + i + "     Sign = " + sign + "   prevSign = " + prevSign);
-        sign = Math.Sign(areasEnemy[i].transform.position.x - enemy.gameObject.transform.position.x);
+        sign = Math.Sign(areasEnemy[i].transform.position.x - transform.position.x);
 
         if (prevSign != sign)
         {
@@ -51,14 +43,14 @@ public class Enemy : MonoBehaviour
             i++;
             if (i >= areasEnemy.Count) i = 0;
 
-            sign = Math.Sign(areasEnemy[i].transform.position.x - enemy.gameObject.transform.position.x);
+            sign = Math.Sign(areasEnemy[i].transform.position.x - gameObject.transform.position.x);
         }
         prevSign = sign;
 
 
 
 
-        enemy.moveX(sign);
+        moveX(sign);
 
         if ((trigerRight == true) || (trigerLeft == true))
         {
@@ -71,22 +63,22 @@ public class Enemy : MonoBehaviour
             timePreviousJumpButton = 0f;
         }
         timePreviousJumpButton += Time.fixedDeltaTime;
-        enemy.jump(jumpInput, timePreviousJumpButton);
+        jump(jumpInput, timePreviousJumpButton);
     }
 
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Sticky")
         {
-            enemy.setIsSticky(true);
-            enemy.setStickyPos(col.GetContact(1).point.x);
+            setIsSticky(true);
+            setStickyPos(col.GetContact(1).point.x);
         }
     }
     void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag == "Sticky")
         {
-            enemy.setIsSticky(false);
+            setIsSticky(false);
         }
     }
 }

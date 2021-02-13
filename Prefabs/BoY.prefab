@@ -100,6 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 663c27d8e5a0bac4aa4e34203171900d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameObject: {fileID: 0}
+  rigidbody2D: {fileID: 0}
+  isGround: 0
+  roof: 0
 --- !u!50 &3291360774725661811
 Rigidbody2D:
   serializedVersion: 4

@@ -19,16 +19,14 @@ public class Player_head : MonoBehaviour
     {
         if (col.tag == "Floor")
         {
-            parentCode.character.setRoof(true);
-            Debug.Log("Touch roof");
+            parentCode.setRoof(true);
         }
     }
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.tag == "Floor")
         {
-            parentCode.character.setRoof(false);
-            Debug.Log("Untouch roof");
+            parentCode.setRoof(false);
         }
     }
 }

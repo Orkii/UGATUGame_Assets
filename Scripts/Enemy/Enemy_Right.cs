@@ -26,10 +26,10 @@ public class Enemy_Right : MonoBehaviour
             float hisSpeed = 0;
             try
             {
-                mySpeed = parentCode.enemy.rigidbody2D.velocity.x;
+                mySpeed = parentCode.GetComponent<Rigidbody2D>().velocity.x;
                 hisSpeed = col.transform.GetComponent<Rigidbody2D>().velocity.x;
 
-                if ((parentCode.enemy.gameObject.transform.localScale.x < 0) && (((mySpeed > -STACKSPEED) && (mySpeed < STACKSPEED)) || ((Math.Sign(mySpeed) != Math.Sign(hisSpeed)) && (parentCode.enemy.gameObject.transform.localScale.x < 0))))
+                if ((parentCode.gameObject.transform.localScale.x < 0) && (((mySpeed > -STACKSPEED) && (mySpeed < STACKSPEED)) || ((Math.Sign(mySpeed) != Math.Sign(hisSpeed)) && (parentCode.gameObject.transform.localScale.x < 0))))
                 {
                     parentCode.setTriggerRight(true);
                 }

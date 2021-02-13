@@ -17,7 +17,7 @@ public class Enemy_Bottom : MonoBehaviour
     {
         try
         {
-            if (parentCode.enemy.getIsGround() == false) parentCode.enemy.doSplash();
+            if (parentCode.getIsGround() == false) parentCode.doSplash();
             if ((col.tag == "Floor") || (col.tag == "Enemy")) parentCode.setIsGround(true);
         } catch { }
     }
