@@ -21,7 +21,7 @@ public class Character
     const float STICKY_JUMP_BOOST_X = 5f;
     const float STICKY_JUMP_BOOST_Y = 10f;
     const float DECELERATION = 12f;
-    const int MORE_JUMP_COUNT = 1; 
+    public const int MORE_JUMP_COUNT = 1; 
     public bool isGround = false;
     bool isSticky = false;
     float stickyPos = 0;
@@ -31,6 +31,7 @@ public class Character
     float moveXKey = 0;
     float scaleX;
 
+    public bool roof = false;
     float moveX_X;
     float moveX_X4;
 
@@ -49,6 +50,13 @@ public class Character
 
         NORMOLIZE_SPEED_X = DECELERATION * Time.fixedDeltaTime;
     }
+
+    public void setRoof(bool b)
+    {
+        roof = b;
+    }
+
+
     public void setIsGround(bool b)
     {
         isGround = b;
@@ -76,6 +84,10 @@ public class Character
     public void setMAX_X_SPEED(float b)
     {
         //MAX_X_SPEED = b;
+    }
+    public void setMoreJump(int b)
+    {
+        moreJump = b;
     }
     public void normolizeSpeed()
     {
@@ -120,7 +132,7 @@ public class Character
 
         }
 
-
+        /*
         if ((isSticky == true) && (isGround == false))
         {
             if (rigidbody2D.velocity.y < STICKY_SPEED_DOWN)
@@ -128,6 +140,7 @@ public class Character
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, STICKY_SPEED_DOWN);
             }
         }
+        */
     }   
     public void moveX(float direction)
     {
@@ -158,8 +171,18 @@ public class Character
                 rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x - moveX_X, rigidbody2D.velocity.y);
             }
         }
-
-
+        
+        if (isSticky == true)
+        {
+            if (direction != 0)
+            {
+                if (forHoney() == direction)
+                {
+                    if (rigidbody2D.velocity.y < STICKY_SPEED_DOWN) rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, STICKY_SPEED_DOWN);
+                }
+            }
+        }
+        
 
         normolizeSpeed();
         flip();
@@ -171,7 +194,7 @@ public class Character
         else if (rigidbody2D.velocity.x < 0)
             gameObject.transform.localScale = new Vector3(-scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 
-        //gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+        
     }
     public void jump(float jumpInput, float timePreviousJumpButton)
     {
@@ -181,28 +204,31 @@ public class Character
         {
             if (timePreviousJump > 0.1f)
             {
-                if (isGround == true)
+                if (!roof)
                 {
-                    rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
-                    moreJump = MORE_JUMP_COUNT;
-                }
-                else if (isSticky == true)
-                {
-                    if (forHoney() > 0)
+                    if (isGround)
                     {
-                        rigidbody2D.velocity = new Vector2(-STICKY_JUMP_BOOST_X, JUMP_FORCE);
+                        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
+                        moreJump = MORE_JUMP_COUNT;
                     }
-                    else if (forHoney() < 0)
+                    else if (isSticky == true)
                     {
-                        rigidbody2D.velocity = new Vector2(STICKY_JUMP_BOOST_X, JUMP_FORCE);
+                        if (forHoney() > 0)
+                        {
+                            rigidbody2D.velocity = new Vector2(-STICKY_JUMP_BOOST_X, JUMP_FORCE);
+                        }
+                        else if (forHoney() < 0)
+                        {
+                            rigidbody2D.velocity = new Vector2(STICKY_JUMP_BOOST_X, JUMP_FORCE);
+                        }
+                        moreJump = MORE_JUMP_COUNT;
                     }
-                    moreJump = MORE_JUMP_COUNT;
-                }
-                else if (moreJump != 0)
-                {
-                    rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
-                    moreJump--;
-                    
+                    else if (moreJump != 0)
+                    {
+                        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
+                        moreJump--;
+
+                    }
                 }
                 timePreviousJump = 0;
                 
@@ -247,7 +273,7 @@ public class Player : MonoBehaviour
 
 
 
-    Character character;
+    public Character character;
     private Rigidbody2D rb;
     float timePreviousJumpButton = 0;
     public Character getCharacter()
@@ -279,11 +305,14 @@ public class Player : MonoBehaviour
     void OnTriggerStay2D(Collider2D col)
     {               //если в тригере что то есть и у обьекта тег "ground"
 
-        if (col.tag == "Floor") 
+        if (col.tag == "Floor")
         {
-            character.setIsSticky(false);
-            if (character.getIsGround() == false) character.doSplash();
-            character.setIsGround(true);
+            if (!character.roof)
+            {
+                character.setIsSticky(false);
+                if (character.getIsGround() == false) character.doSplash();
+                character.setIsGround(true);
+            }
         }      
         else if (col.tag == "Death") character.death();
         else if (col.tag == "Finish") character.win();
@@ -295,7 +324,6 @@ public class Player : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D col)
     {
-       // Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (character.getIsGround() == false)
         {
             if (col.gameObject.tag == "Floor")
@@ -322,7 +350,10 @@ public class Player : MonoBehaviour
         if (col.gameObject.tag == "Floor")
         {
             character.setIsSticky(false);
-
+            if (!character.roof)
+            {
+                character.setMoreJump(Character.MORE_JUMP_COUNT);
+            }
         }
     }
 }
