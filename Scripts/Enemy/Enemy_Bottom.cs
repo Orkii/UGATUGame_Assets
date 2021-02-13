@@ -17,8 +17,12 @@ public class Enemy_Bottom : MonoBehaviour
     {
         try
         {
-            if (parentCode.getIsGround() == false) parentCode.doSplash();
-            if ((col.tag == "Floor") || (col.tag == "Enemy")) parentCode.setIsGround(true);
+           
+            if ((col.tag == "Floor") || (col.tag == "Enemy"))
+            {
+                if (parentCode.getIsGround() == false) parentCode.doSplash();
+                parentCode.setIsGround(true);
+            }
         } catch { }
     }
     void OnTriggerExit2D(Collider2D col)

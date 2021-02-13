@@ -265,8 +265,8 @@ public class Player : MonoBehaviour
 
     AudioSource soundJump;
     AudioSource fallSound;
-    Rigidbody2D rigidbody2D;
-    ParticleSystem particleSystem;
+    new Rigidbody2D rigidbody2D;
+    new ParticleSystem particleSystem;
 
 
 
@@ -300,19 +300,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-
-
         jump(jumpInput, timePreviousJumpButton);
         moveX(moveInput.x);
-
-
-
-
-
-
-
-
-
     }
     void OnTriggerStay2D(Collider2D col)
     {               //если в тригере что то есть и у обьекта тег "ground"
