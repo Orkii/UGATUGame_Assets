@@ -87,7 +87,6 @@ public class Player : MonoBehaviour
     {
         return isGround;
     }
-
     public void setMoreJump(int b)
     {
         moreJump = b;
@@ -201,6 +200,9 @@ public class Player : MonoBehaviour
                     if (isGround)
                     {
                         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
+
+                        audioSource.PlayOneShot(soundJump);
+
                         moreJump = MORE_JUMP_COUNT;
                     }
                     else if (isSticky == true)
@@ -213,11 +215,13 @@ public class Player : MonoBehaviour
                         {
                             rigidbody2D.velocity = new Vector2(STICKY_JUMP_BOOST_X, JUMP_FORCE);
                         }
+                        audioSource.PlayOneShot(soundJump);
                         moreJump = MORE_JUMP_COUNT;
                     }
                     else if (moreJump != 0)
                     {
                         rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, JUMP_FORCE);
+                        audioSource.PlayOneShot(soundJump);
                         moreJump--;
 
                     }
@@ -263,8 +267,10 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     float timePreviousJumpButton = 0;
 
-    AudioSource soundJump;
-    AudioSource fallSound;
+
+    AudioSource audioSource;
+    public AudioClip soundJump;
+    public AudioClip fallSound;
     new Rigidbody2D rigidbody2D;
     new ParticleSystem particleSystem;
 
@@ -272,10 +278,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        soundJump = GetComponent<AudioSource>();
-        fallSound = GetComponent<AudioSource>();
         rigidbody2D = GetComponent<Rigidbody2D>();
         particleSystem = GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
         scaleX = gameObject.transform.localScale.x;
 
 
@@ -356,6 +361,10 @@ public class Player : MonoBehaviour
                 setMoreJump(MORE_JUMP_COUNT);
             }
         }
+    }
+    public void PlayAudio(AudioClip clip)
+    {
+        GetComponent<AudioSource>().PlayOneShot(clip);
     }
 
 

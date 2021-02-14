@@ -85,7 +85,7 @@ public class Enemy : Player
             }
         }
     }
-    /*
+    
     void OnTriggerStay2D(Collider2D col)
     {          
 
@@ -94,5 +94,5 @@ public class Enemy : Player
     {
 
     }
-    */
+    
 }

@@ -8657,6 +8657,11 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1711481319
       objectReference: {fileID: 0}
+    - target: {fileID: 6603154491808835946, guid: bc7a3c17e40b5da4e97ad876de0d8096,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8842208007696488366, guid: bc7a3c17e40b5da4e97ad876de0d8096,
         type: 3}
       propertyPath: m_RootOrder
