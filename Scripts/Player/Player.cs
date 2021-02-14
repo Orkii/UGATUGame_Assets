@@ -270,7 +270,7 @@ public class Player : MonoBehaviour
 
     AudioSource audioSource;
     public AudioClip soundJump;
-    public AudioClip fallSound;
+    public AudioClip soundFall;
     new Rigidbody2D rigidbody2D;
     new ParticleSystem particleSystem;
 
@@ -316,7 +316,11 @@ public class Player : MonoBehaviour
             if (!roof)
             {
                 setIsSticky(false);
-                if (getIsGround() == false) doSplash();
+                if (getIsGround() == false) 
+                {
+                    doSplash();
+                    audioSource.PlayOneShot(soundFall);
+                }
                 setIsGround(true);
             }
         }      
