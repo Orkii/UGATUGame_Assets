@@ -46,7 +46,7 @@ public class Enemy : Player
 
 
 
-        moveX(sign);
+        
 
         if (trigerRight == true)
         {
@@ -61,6 +61,7 @@ public class Enemy : Player
 
         timePreviousJumpButton += Time.fixedDeltaTime;
         jump(jumpInput, timePreviousJumpButton);
+        moveX(sign);
     }
 
 
@@ -75,9 +76,13 @@ public class Enemy : Player
     }
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Sticky")
+        if (col.gameObject.tag == "Floor")
         {
             setIsSticky(false);
+            if (!roof)
+            {
+                setMoreJump(MORE_JUMP_COUNT);
+            }
         }
     }
     /*
