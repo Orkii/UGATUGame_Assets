@@ -275,6 +275,9 @@ public class Player : MonoBehaviour
     new ParticleSystem particleSystem;
 
 
+    Weapon arm;
+    Joystick joystick;
+
 
     void Start()
     {
@@ -282,8 +285,8 @@ public class Player : MonoBehaviour
         particleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
         scaleX = gameObject.transform.localScale.x;
-
-
+        joystick = FindObjectOfType<Joystick>();
+        arm = new ShotGun(joystick);
     }
     float jumpInput = 0;
     Vector2 moveInput;
@@ -300,6 +303,8 @@ public class Player : MonoBehaviour
             timePreviousJumpButton = 0f;
         }
         timePreviousJumpButton += Time.deltaTime;
+
+        Debug.Log(joystick.Direction);
 
     }
 
