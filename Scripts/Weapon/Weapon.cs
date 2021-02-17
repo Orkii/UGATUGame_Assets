@@ -21,8 +21,6 @@ public class Weapon : MonoBehaviour
     public virtual void shot(Vector2 direction) {}
     public virtual void look() {}
 
-
-
 }
 public class ShotGun : Weapon
 {
@@ -61,11 +59,15 @@ public class ShotGun : Weapon
 
         float angle = (float)arcy * 57.32f;
 
+        if (x < 0) angle = 180 - angle;
 
-        //weapon.rotation = new (angle);
-        weapon.rotation = new Quaternion(0, 0, angle, 1);
-        
+
+
+        weapon.rotation = Quaternion.Euler(0, 0, angle);
+
+
         Debug.Log(angle);
+        Debug.Log(arcy);
 
         //Debug.Log("Asin = ", arcy);
 
