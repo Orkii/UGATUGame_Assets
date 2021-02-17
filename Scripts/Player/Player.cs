@@ -304,6 +304,8 @@ public class Player : MonoBehaviour
         }
         timePreviousJumpButton += Time.deltaTime;
 
+        arm.look();
+
         Debug.Log(joystick.Direction);
 
     }
