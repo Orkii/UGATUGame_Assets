@@ -45,13 +45,7 @@ public class ShotGun : Weapon
 
     public override void shot(Vector2 direction)
     {
-        //Vector3 whereSpawn = new Vector3(direction.x, direction.y, 0);
-
-
-        Debug.Log(weapon.transform.position);
-        //Instantiate(bullet, weapon.transform);
-        Instantiate(bullet, weapon.transform.position, Quaternion.Euler(weapon.localRotation.x, weapon.localRotation.y, weapon.localRotation.z));
-
+        Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
     }
 
     public override void look()
