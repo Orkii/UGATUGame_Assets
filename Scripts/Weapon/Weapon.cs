@@ -11,11 +11,13 @@ public class Weapon : MonoBehaviour
     public Transform weapon;
     public GameObject bullet;
     public Joystick joystick;
+    public Vector2 normalScale;
 
     public Weapon(Joystick joy) 
     {
         joystick = joy;
         weapon = GameObject.Find("ShotStick").transform;
+        normalScale = weapon.transform.localScale;
     }
 
     public virtual void shot(Vector2 direction) {}
@@ -55,23 +57,26 @@ public class ShotGun : Weapon
         double y = joystick.Direction.y;
         double x = joystick.Direction.x;
 
-        double arcy = Math.Asin(y / (Math.Sqrt((x * x) + (y * y))));
 
-        float angle = (float)arcy * 57.32f;
+        double del = (Math.Sqrt((x * x) + (y * y)));
 
-        if (x < 0) angle = 180 - angle;
+        if (del != 0) {
+            double arcy = Math.Asin(y / del);
 
+            float angle = (float)arcy * 57.32f;
 
+            if (x < 0)
+            {
+                angle = - angle;
+                weapon.localScale = new Vector2(-normalScale.x, normalScale.y);
+            }
+            else weapon.localScale = new Vector2(normalScale.x, normalScale.y);
 
-        weapon.rotation = Quaternion.Euler(0, 0, angle);
+            weapon.rotation = Quaternion.Euler(0, 0, angle);
 
-
-        Debug.Log(angle);
-        Debug.Log(arcy);
-
-        //Debug.Log("Asin = ", arcy);
-
-
+            Debug.Log(angle);
+            Debug.Log(arcy);
+        }
     }
 
 
