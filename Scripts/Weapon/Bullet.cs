@@ -16,11 +16,12 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tr = gameObject.transform;
 
-        float angle = gameObject.transform.rotation.eulerAngles.z + UnityEngine.Random.Range(-30f, 30f);
+        float rand = UnityEngine.Random.Range(-30f, 30f);
+        float angle = gameObject.transform.rotation.eulerAngles.z + rand;
+        
 
 
-
-        gameObject.transform.Rotate(0,0 , angle + 90);
+        gameObject.transform.Rotate(0,0 , 90 + rand);
 
 
 

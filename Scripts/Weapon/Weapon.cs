@@ -27,7 +27,7 @@ public class Weapon : MonoBehaviour
 public class ShotGun : Weapon
 {
 
-
+    int bulletCount = 7;
 
 
 
@@ -45,7 +45,14 @@ public class ShotGun : Weapon
 
     public override void shot(Vector2 direction)
     {
-        Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
+        for (int i = 0; i < bulletCount; i++)
+        {
+
+
+
+
+            Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
+        }
     }
 
     public override void look()
