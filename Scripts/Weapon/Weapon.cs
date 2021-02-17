@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour
         normalScale = weapon.transform.localScale;
     }
 
-    public virtual void shot(Vector2 direction) {}
+    public virtual void shot() {}
     public virtual void look() {}
 
 }
@@ -28,29 +28,26 @@ public class ShotGun : Weapon
 {
 
     int bulletCount = 7;
-
+    Rigidbody2D player;
+    float jumpForce = 3f;
 
 
 
     public ShotGun(Joystick joy) : base(joy) 
     {
         bullet = Resources.Load("Bullet") as GameObject;
+        //player = gameObject.GetComponent<Rigidbody2D>();
+        player = weapon.parent.GetComponent<Rigidbody2D>();
     }
-
-    //weapon = gameObject.transform.GetChild(1).transform;
-
-
-
-
-
-    public override void shot(Vector2 direction)
+    public override void shot()
     {
+        float angle = weapon.transform.rotation.eulerAngles.z + 180;
+        Vector2 boost = new Vector2(Mathf.Cos(angle / 57.32f) * bulletSpeed, Mathf.Sin(angle / 57.32f) * bulletSpeed);
+
+        player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.x + boost.y * jumpForce);
+
         for (int i = 0; i < bulletCount; i++)
         {
-
-
-
-
             Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
         }
     }
@@ -67,7 +64,7 @@ public class ShotGun : Weapon
 
         if ((x == 0) && (y==0) && (prevJoystick.x != 0) && (prevJoystick.y != 0))
         {
-            shot(prevJoystick);
+            shot();
         }
 
 

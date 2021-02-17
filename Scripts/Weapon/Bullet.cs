@@ -17,17 +17,18 @@ public class Bullet : MonoBehaviour
         tr = gameObject.transform;
 
         float rand = UnityEngine.Random.Range(-30f, 30f);
-        float angle = gameObject.transform.rotation.eulerAngles.z + rand;
         
+        
+        gameObject.transform.eulerAngles = new Vector3(0, 0, -gameObject.transform.rotation.eulerAngles.z + rand);
 
+        float angle = gameObject.transform.rotation.eulerAngles.z;
 
-        gameObject.transform.Rotate(0,0 , 90 + rand);
-
+        transform.Rotate(0, 0, 90);
 
 
         if (gameObject.transform.localScale.x < 0)
         {
-            angle = -angle;
+            //angle = -angle;
         }
         //transform.rotation = Quaternion.Euler(0, 0, angle);
 
