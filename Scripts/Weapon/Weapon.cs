@@ -12,7 +12,7 @@ public class Weapon : MonoBehaviour
     public GameObject bullet;
     public Joystick joystick;
     public Vector2 normalScale;
-
+    public Vector2 prevJoystick;
     public Weapon(Joystick joy) 
     {
         joystick = joy;
@@ -33,8 +33,8 @@ public class ShotGun : Weapon
 
 
     public ShotGun(Joystick joy) : base(joy) 
-    { 
-
+    {
+        bullet = Resources.Load("Bullet") as GameObject;
     }
 
     //weapon = gameObject.transform.GetChild(1).transform;
@@ -45,18 +45,33 @@ public class ShotGun : Weapon
 
     public override void shot(Vector2 direction)
     {
-        Vector2 whereSpawn = new Vector2();
-        Instantiate(bullet, transform);
+        //Vector3 whereSpawn = new Vector3(direction.x, direction.y, 0);
+
+
+        Debug.Log(weapon.transform.position);
+        //Instantiate(bullet, weapon.transform);
+        Instantiate(bullet, weapon.transform.position, Quaternion.Euler(weapon.localRotation.x, weapon.localRotation.y, weapon.localRotation.z));
 
     }
 
     public override void look()
     {
         //new Vector2(Mathf.Cos((obj.transform.eulerAngles.z + 90f) / 57.32f) * f, Mathf.Sin((obj.transform.eulerAngles.z + 90f) / 57.32f) * f);
-        float whereILook;
+
+
+
+        //float whereILook;
         double y = joystick.Direction.y;
         double x = joystick.Direction.x;
 
+        if ((x == 0) && (y==0) && (prevJoystick.x != 0) && (prevJoystick.y != 0))
+        {
+            shot(prevJoystick);
+        }
+
+
+        prevJoystick = new Vector2 ((float)x, (float)y);
+        
 
         double del = (Math.Sqrt((x * x) + (y * y)));
 
@@ -67,16 +82,14 @@ public class ShotGun : Weapon
 
             if (x < 0)
             {
-                angle = - angle;
-                weapon.localScale = new Vector2(-normalScale.x, normalScale.y);
+                angle = 180 - angle;
+                weapon.localScale = new Vector2(normalScale.x, -normalScale.y);
             }
             else weapon.localScale = new Vector2(normalScale.x, normalScale.y);
 
             weapon.rotation = Quaternion.Euler(0, 0, angle);
-
-            Debug.Log(angle);
-            Debug.Log(arcy);
         }
+
     }
 
 
