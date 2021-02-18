@@ -29,6 +29,7 @@ public class ShotGun : Weapon
 
     const int BULLET_COUNT = 7;
     Rigidbody2D player;
+    SpriteRenderer sprite;
     float jumpForce = 3f;
 
 
@@ -38,6 +39,7 @@ public class ShotGun : Weapon
         bullet = Resources.Load("Bullet") as GameObject;
         //player = gameObject.GetComponent<Rigidbody2D>();
         player = weapon.parent.GetComponent<Rigidbody2D>();
+        sprite = weapon.GetComponent<SpriteRenderer>();
     }
     public override void shot()
     {
@@ -75,9 +77,9 @@ public class ShotGun : Weapon
             {
                 angle = 180 - angle;
                 //weapon.localScale = new Vector2(normalScale.x, -normalScale.y);
-                weapon.GetComponent<SpriteRenderer>().flipY = true;
+                sprite.flipY = true;
             }
-            else weapon.GetComponent<SpriteRenderer>().flipY = false;
+            else sprite.flipY = false;
             //weapon.localScale = new Vector2(normalScale.x, normalScale.y);
 
             weapon.rotation = Quaternion.Euler(0, 0, angle);
