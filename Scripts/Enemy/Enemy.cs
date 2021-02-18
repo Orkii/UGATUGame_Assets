@@ -14,8 +14,20 @@ public class Enemy : Player
     {
         trigerRight = b;
     }
-    override public void death() { }
+    override public void death() 
+    {
+        Destroy(gameObject);
+    }
     override public void respawn() { }
+
+    override public void flip() 
+    {
+        if (rigidbody2D.velocity.x > 0)
+            gameObject.transform.localScale = new Vector3(scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+        else if (rigidbody2D.velocity.x < 0)
+            gameObject.transform.localScale = new Vector3(-scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+    }
+
 
 
     public int i = 0;
@@ -72,6 +84,11 @@ public class Enemy : Player
         {
             setIsSticky(true);
             setStickyPos(col.GetContact(1).point.x);
+        }
+        if (col.gameObject.tag == "Bullet")
+        {
+            death();
+            Debug.Log("Bullet");
         }
     }
     void OnCollisionExit2D(Collision2D col)

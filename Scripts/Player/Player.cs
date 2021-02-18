@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     int moreJump = MORE_JUMP_COUNT;
     const float MAX_X_SPEED = MAX_X_SPEED_STICKY;
     float moveXKey = 0;
-    float scaleX;
+    public float scaleX;
 
     public bool roof = false;
     float moveX_X = ACCELERATION * fixedDeltaTime;
@@ -178,7 +178,7 @@ public class Player : MonoBehaviour
         normolizeSpeed();
         flip();
     }
-    public void flip()
+    public virtual void flip()
     {
         if (rigidbody2D.velocity.x > 0) spriteRenderer.flipX = false;
         //gameObject.transform.localScale = new Vector3(scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
@@ -271,7 +271,7 @@ public class Player : MonoBehaviour
     AudioSource audioSource;
     public AudioClip soundJump;
     public AudioClip soundFall;
-    new Rigidbody2D rigidbody2D;
+    public new Rigidbody2D rigidbody2D;
     new ParticleSystem particleSystem;
     SpriteRenderer spriteRenderer;
 
