@@ -60,21 +60,21 @@ public class Player : MonoBehaviour
     public void setRoof(bool b)
     {
         roof = b;
-    }
+    }// Для определения потолка // Для Head
 
 
     public void setIsGround(bool b)
     {
         isGround = b;
-    }
+    }// Для определения пола // 
     public void setStickyPos(float b)
     {
         stickyPos = b;
-    }
+    }// Для расположения Стен //
     public void setIsSticky(bool b)
     {
         isSticky = b;
-    }
+    }// Для Стен //
     public float getMAX_X_SPEED_STICKY()
     {
         return (MAX_X_SPEED_STICKY);
@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
 
 
         }
-    }
+    }// Замедление //
     public void moveX(float direction)
     {
 
@@ -177,7 +177,7 @@ public class Player : MonoBehaviour
 
         normolizeSpeed();
         flip();
-    }
+    }// Движение // 
     public virtual void flip()
     {
         if (rigidbody2D.velocity.x > 0) spriteRenderer.flipX = false;
@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
         //gameObject.transform.localScale = new Vector3(-scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 
 
-    }
+    }// Поворот // 
     public void jump(float jumpInput, float timePreviousJumpButton)
     {
         timePreviousJump += timePreviousJumpButton;
@@ -230,7 +230,7 @@ public class Player : MonoBehaviour
 
             }
         }
-    }
+    }// Прыжок //
     float forHoney()
     {
         if ((isSticky == true) && (isGround == false))
@@ -241,7 +241,7 @@ public class Player : MonoBehaviour
             else if ((gameObject.transform.position.x - stickyPos) < 0) return 1;
         }
         return 0;
-    }
+    }// Где стена? // -1Слева 1Справа
     public void doSplash()
     {
         particleSystem.Play();
@@ -315,7 +315,7 @@ public class Player : MonoBehaviour
         jump(jumpInput, timePreviousJumpButton);
         moveX(moveInput.x);
     }
-    void OnTriggerStay2D(Collider2D col)
+    public virtual void OnTriggerStay2D(Collider2D col)
     {               //если в тригере что то есть и у обьекта тег "ground"
 
         if (col.tag == "Floor")
@@ -334,12 +334,12 @@ public class Player : MonoBehaviour
         else if (col.tag == "Death") death();
         else if (col.tag == "Finish") win();
     }
-    void OnTriggerExit2D(Collider2D col)
+    public virtual void OnTriggerExit2D(Collider2D col)
     {              //если из триггера что то вышло и у обьекта тег "ground"
         if (col.tag == "Floor") setIsGround(false);     //то вЫключаем переменную "на земле"
 
     }
-    void OnCollisionStay2D(Collision2D col)
+    public virtual void OnCollisionStay2D(Collision2D col)
     {
         if (getIsGround() == false)
         {
@@ -355,14 +355,16 @@ public class Player : MonoBehaviour
 
         if (col.gameObject.tag == "Death")
         {
+            Debug.Log("I dead Death");
             death();
         }
         else if (col.gameObject.tag == "Enemy")
         {
+            Debug.Log("I dead Enemy");
             death();
         }
     }
-    void OnCollisionExit2D(Collision2D col)
+    public virtual void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag == "Floor")
         {

@@ -16,6 +16,7 @@ public class Enemy : Player
     }
     override public void death() 
     {
+        Debug.Log("Death");
         Destroy(gameObject);
     }
     override public void respawn() { }
@@ -77,7 +78,7 @@ public class Enemy : Player
     }
 
 
-
+    void OnCollisionStay2D() { }
     void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.tag == "Sticky")
@@ -85,13 +86,9 @@ public class Enemy : Player
             setIsSticky(true);
             setStickyPos(col.GetContact(1).point.x);
         }
-        if (col.gameObject.tag == "Bullet")
-        {
-            death();
-            Debug.Log("Bullet");
-        }
+
     }
-    void OnCollisionExit2D(Collision2D col)
+    public override void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag == "Floor")
         {
@@ -102,12 +99,17 @@ public class Enemy : Player
             }
         }
     }
-    
-    void OnTriggerStay2D(Collider2D col)
-    {          
 
+    public override void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Bullet")
+        {
+            Debug.Log("I dead");
+            death();
+
+        }
     }
-    void OnTriggerExit2D(Collider2D col)
+    public override void OnTriggerExit2D(Collider2D col)
     {
 
     }

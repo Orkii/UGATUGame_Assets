@@ -43,7 +43,6 @@ public class Bullet : MonoBehaviour
 
         if (col.gameObject.tag == "Floor")
         {
-            Debug.Log("Пулька");
             GetComponent<ParticleSystem>().Play();
             Invoke("destroy", 1);
             gameObject.GetComponent<Renderer>().enabled = false;

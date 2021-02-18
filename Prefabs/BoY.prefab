@@ -103,9 +103,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  scaleX: 0
   roof: 0
   soundJump: {fileID: 8300000, guid: dacade3af5c86734d84178a24c684ff5, type: 3}
   soundFall: {fileID: 8300000, guid: d54e2c473fecc0e42bfaba5626d25f05, type: 3}
+  rigidbody2D: {fileID: 0}
 --- !u!50 &3291360774725661811
 Rigidbody2D:
   serializedVersion: 4
@@ -5090,7 +5092,7 @@ GameObject:
   - component: {fileID: 8463327604194190828}
   - component: {fileID: 7887318696579388473}
   m_Layer: 2
-  m_Name: GameObject
+  m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
