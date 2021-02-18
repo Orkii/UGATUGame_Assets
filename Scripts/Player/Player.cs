@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
 
 
         }
-    }// Замедление //
+    }// Замедление // Вызывается в MoveX 
     public void moveX(float direction)
     {
 
@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
         //gameObject.transform.localScale = new Vector3(-scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 
 
-    }// Поворот // 
+    }// Поворот // Вызывается в MoveX 
     public void jump(float jumpInput, float timePreviousJumpButton)
     {
         timePreviousJump += timePreviousJumpButton;
@@ -245,22 +245,22 @@ public class Player : MonoBehaviour
     public void doSplash()
     {
         particleSystem.Play();
-    }
+    }// Партиклы падения // 
     public virtual void death()
     {
         respawn();
-    }
+    }// СмЭрт // 
     public virtual void respawn()
     {
         GameObject spawnPoint = GameObject.FindGameObjectWithTag("Respawn");
         gameObject.transform.position = spawnPoint.transform.position;
-    }
+    }// Респавн // 
     public  void win()
     {
         GameObject win;
         win = canvas.transform.Find("Win").gameObject;
         win.SetActive(true);
-    }
+    }// Пабеда // 
 
 
 
