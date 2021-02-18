@@ -54,11 +54,6 @@ public class ShotGun : Weapon
 
     public override void look()
     {
-        //new Vector2(Mathf.Cos((obj.transform.eulerAngles.z + 90f) / 57.32f) * f, Mathf.Sin((obj.transform.eulerAngles.z + 90f) / 57.32f) * f);
-
-
-
-        //float whereILook;
         double y = joystick.Direction.y;
         double x = joystick.Direction.x;
 
@@ -67,9 +62,7 @@ public class ShotGun : Weapon
             shot();
         }
 
-
         prevJoystick = new Vector2 ((float)x, (float)y);
-        
 
         double del = (Math.Sqrt((x * x) + (y * y)));
 
@@ -81,15 +74,15 @@ public class ShotGun : Weapon
             if (x < 0)
             {
                 angle = 180 - angle;
-                weapon.localScale = new Vector2(normalScale.x, -normalScale.y);
+                //weapon.localScale = new Vector2(normalScale.x, -normalScale.y);
+                weapon.GetComponent<SpriteRenderer>().flipY = true;
             }
-            else weapon.localScale = new Vector2(normalScale.x, normalScale.y);
+            else weapon.GetComponent<SpriteRenderer>().flipY = false;
+            //weapon.localScale = new Vector2(normalScale.x, normalScale.y);
 
             weapon.rotation = Quaternion.Euler(0, 0, angle);
         }
-
     }
-
 
 
 }

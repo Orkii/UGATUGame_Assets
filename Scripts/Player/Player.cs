@@ -180,10 +180,10 @@ public class Player : MonoBehaviour
     }
     public void flip()
     {
-        if (rigidbody2D.velocity.x > 0)
-            gameObject.transform.localScale = new Vector3(scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
-        else if (rigidbody2D.velocity.x < 0)
-            gameObject.transform.localScale = new Vector3(-scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+        if (rigidbody2D.velocity.x > 0) spriteRenderer.flipX = false;
+        //gameObject.transform.localScale = new Vector3(scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+        else if (rigidbody2D.velocity.x < 0) spriteRenderer.flipX = true;
+        //gameObject.transform.localScale = new Vector3(-scaleX, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
 
 
     }
@@ -273,6 +273,7 @@ public class Player : MonoBehaviour
     public AudioClip soundFall;
     new Rigidbody2D rigidbody2D;
     new ParticleSystem particleSystem;
+    SpriteRenderer spriteRenderer;
 
 
     Weapon arm;
@@ -286,6 +287,7 @@ public class Player : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         scaleX = gameObject.transform.localScale.x;
         joystick = FindObjectOfType<Joystick>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         arm = new ShotGun(joystick);
     }
     float jumpInput = 0;
