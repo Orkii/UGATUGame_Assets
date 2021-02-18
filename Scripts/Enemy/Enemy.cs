@@ -115,7 +115,7 @@ public class Enemy : Player
     {
         Debug.Log("Enemy Помер");
         GameObject a = Instantiate(dedPart, transform.position, Quaternion.identity);
-        Destroy(a, 2);
+        Destroy(a, 0.5f);
 
         Destroy(gameObject);
     }
