@@ -27,7 +27,7 @@ public class Weapon : MonoBehaviour
 public class ShotGun : Weapon
 {
 
-    int bulletCount = 7;
+    const int BULLET_COUNT = 7;
     Rigidbody2D player;
     float jumpForce = 3f;
 
@@ -46,7 +46,7 @@ public class ShotGun : Weapon
 
         player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.x + boost.y * jumpForce);
 
-        for (int i = 0; i < bulletCount; i++)
+        for (int i = 0; i < BULLET_COUNT; i++)
         {
             Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
         }

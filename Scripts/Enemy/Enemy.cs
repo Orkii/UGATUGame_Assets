@@ -14,11 +14,16 @@ public class Enemy : Player
     {
         trigerRight = b;
     }
+    /*
     override public void death() 
     {
         Debug.Log("Death");
+        GameObject a = Instantiate(dedPart);
+        Destroy(a, 5);
+
         Destroy(gameObject);
     }
+    */
     override public void respawn() { }
 
     override public void flip() 
@@ -35,6 +40,7 @@ public class Enemy : Player
     float jumpInput = 0;
     float timePreviousJumpButton = 0;
     public List<GameObject> areasEnemy = new List<GameObject>();
+    public GameObject dedPart;
 
 
     float sign = 0;
@@ -104,8 +110,8 @@ public class Enemy : Player
     {
         if (col.gameObject.tag == "Bullet")
         {
-            Debug.Log("I dead");
-            death();
+            Destroy(col.gameObject);
+            OnDestroy();
 
         }
     }
@@ -113,5 +119,14 @@ public class Enemy : Player
     {
 
     }
-    
+    void OnDestroy()
+    {
+        Debug.Log("Enemy Помер");
+        GameObject a = Instantiate(dedPart);
+        Destroy(a, 5);
+
+        Destroy(gameObject);
+    }
+
+
 }

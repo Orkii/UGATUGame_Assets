@@ -11,15 +11,20 @@ public class Bullet : MonoBehaviour
     Rigidbody2D rb;
     Transform tr;
     new ParticleSystem particleSystem;
+    CapsuleCollider2D collider;
 
     void Start()
     {
         //joystick = FindObjectOfType<Joystick>();
-        rb = GetComponent<Rigidbody2D>();
-        particleSystem = GetComponent<ParticleSystem>();
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        particleSystem = gameObject.GetComponent<ParticleSystem>();
+        collider = GetComponent<CapsuleCollider2D>();
+        
+
+
         tr = gameObject.transform;
 
-        float rand = UnityEngine.Random.Range(-30f, 30f);
+        float rand =  UnityEngine.Random.Range(-30f, 30f);
 
 
         gameObject.transform.eulerAngles = new Vector3(0, 0, -gameObject.transform.rotation.eulerAngles.z + rand);
@@ -46,13 +51,27 @@ public class Bullet : MonoBehaviour
             GetComponent<ParticleSystem>().Play();
             Invoke("destroy", 1);
             gameObject.GetComponent<Renderer>().enabled = false;
+            collider.enabled = false;
             rb.velocity = new Vector2(0,0);
 
+        }
+        else if(col.gameObject.tag == "Enemy")
+        {
+            GetComponent<ParticleSystem>().Play();
+            Invoke("destroy", 1);
+            gameObject.GetComponent<Renderer>().enabled = false;
+            collider.enabled = false;
+            rb.velocity = new Vector2(0, 0);
+
+            Destroy(col.gameObject);
         }
     }
     void destroy()
     {
         Destroy(gameObject);
     }
+
+
+
 }
 

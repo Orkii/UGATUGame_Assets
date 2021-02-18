@@ -5011,13 +5011,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGround: 0
+  scaleX: 0
   roof: 0
   soundJump: {fileID: 8300000, guid: dacade3af5c86734d84178a24c684ff5, type: 3}
-  fallSound: {fileID: 0}
+  soundFall: {fileID: 8300000, guid: d54e2c473fecc0e42bfaba5626d25f05, type: 3}
+  rigidbody2D: {fileID: 0}
   i: 0
   areasEnemy:
   - {fileID: 0}
   - {fileID: 0}
+  dedPart: {fileID: 1416160654385993921, guid: af42eae4dd18a3e4aaaa9ffd15ded2a5, type: 3}
 --- !u!82 &7235819099608091230
 AudioSource:
   m_ObjectHideFlags: 0

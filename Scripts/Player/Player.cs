@@ -355,12 +355,10 @@ public class Player : MonoBehaviour
 
         if (col.gameObject.tag == "Death")
         {
-            Debug.Log("I dead Death");
             death();
         }
         else if (col.gameObject.tag == "Enemy")
         {
-            Debug.Log("I dead Enemy");
             death();
         }
     }
