@@ -13,11 +13,17 @@ public class Weapon : MonoBehaviour {
     public Vector2 normalScale;
     public Vector2 prevJoystick;
     public Vector2 startJoystick;
+    public Player parentCode;
 
     public Weapon(Joystick joy) {
         joystick = joy;
         weapon = GameObject.Find("ShotStick").transform;
         normalScale = weapon.transform.localScale;
+        try {
+            parentCode = weapon.parent.gameObject.GetComponent<Player>();
+        }
+        catch { }
+        if (parentCode == null) Debug.Log("Weapon parentCode = null");
     }
 
     public virtual void shot() { }
@@ -69,10 +75,15 @@ public class ShotGun : Weapon {
 
 
         if ((prevJoystick.x != 0) && (prevJoystick.y != 0) && (x == 0) && (y == 0)) {
-            if (startJoystick == prevJoystick)
-                shot(270f);
-            else
-                shot();
+            if (startJoystick == prevJoystick) {
+                if (parentCode.getIsGround())
+                    parentCode.setJumpInput(1);
+                else { 
+                    shot(270f);
+                    parentCode.setJumpInput(0);
+                }
+            }      
+            else shot();
 
         }
 

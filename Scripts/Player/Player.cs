@@ -63,7 +63,9 @@ public class Player : MonoBehaviour
         roof = b;
     }// Для определения потолка // Для Head
 
-
+    public void setJumpInput(float b) {
+        jumpInput = b;
+    }
     public void setIsGround(bool b)
     {
         isGround = b;
@@ -297,27 +299,29 @@ public class Player : MonoBehaviour
     Vector2 moveInput;
     void Update()
     {
+        arm.look();
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         animator.SetBool("Run", Mathf.Abs(moveInput.x) >= 0.001f);
-        if (Input.GetKeyDown("space")) jumpInput = 1;
-        if (Input.GetKeyUp("space")) jumpInput = 0;
+        if (Input.GetKeyDown("space")) jumpInput += 1;
+        if (Input.GetKeyUp("space")) jumpInput += 0;
 
 
-        if (jumpInput == 1)
+        if (jumpInput > 0)
         {
             animator.SetTrigger("Jump");
             timePreviousJumpButton = 0f;
         }
         timePreviousJumpButton += Time.deltaTime;
 
-        arm.look();
-
+        
+        
     }
 
     void FixedUpdate()
     {
         jump(jumpInput, timePreviousJumpButton);
         moveX(moveInput.x);
+        jumpInput = 0;
     }
     public virtual void OnTriggerStay2D(Collider2D col)
     {               //если в тригере что то есть и у обьекта тег "ground"
