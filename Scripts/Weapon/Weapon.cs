@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class Weapon : MonoBehaviour
-{
+public class Weapon : MonoBehaviour {
 
     public float bulletSpeed = 5f;
     public Transform weapon;
@@ -13,19 +12,19 @@ public class Weapon : MonoBehaviour
     public Joystick joystick;
     public Vector2 normalScale;
     public Vector2 prevJoystick;
-    public Weapon(Joystick joy) 
-    {
+    public Vector2 startJoystick;
+
+    public Weapon(Joystick joy) {
         joystick = joy;
         weapon = GameObject.Find("ShotStick").transform;
         normalScale = weapon.transform.localScale;
     }
 
-    public virtual void shot() {}
-    public virtual void look() {}
+    public virtual void shot() { }
+    public virtual void look() { }
 
 }
-public class ShotGun : Weapon
-{
+public class ShotGun : Weapon {
 
     const int BULLET_COUNT = 7;
     Rigidbody2D player;
@@ -34,37 +33,62 @@ public class ShotGun : Weapon
 
 
 
-    public ShotGun(Joystick joy) : base(joy) 
-    {
+    public ShotGun(Joystick joy) : base(joy) {
         bullet = Resources.Load("Bullet") as GameObject;
         //player = gameObject.GetComponent<Rigidbody2D>();
         player = weapon.parent.GetComponent<Rigidbody2D>();
         sprite = weapon.GetComponent<SpriteRenderer>();
     }
-    public override void shot()
-    {
+    public override void shot() {
         float angle = weapon.transform.rotation.eulerAngles.z + 180;
         Vector2 boost = new Vector2(Mathf.Cos(angle / 57.32f) * bulletSpeed, Mathf.Sin(angle / 57.32f) * bulletSpeed);
 
         player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.x + boost.y * jumpForce);
 
-        for (int i = 0; i < BULLET_COUNT; i++)
-        {
+        for (int i = 0; i < BULLET_COUNT; i++) {
+            Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
+        }
+    }
+    public void shot(float a) {
+        weapon.transform.eulerAngles = new Vector3(0, 0, a);
+        Debug.Log(weapon.transform.eulerAngles);
+
+        float angle = weapon.transform.rotation.eulerAngles.z + 180;
+        Vector2 boost = new Vector2(Mathf.Cos(angle / 57.32f) * bulletSpeed, Mathf.Sin(angle / 57.32f) * bulletSpeed);
+
+        player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.x + boost.y * jumpForce);
+
+        for (int i = 0; i < BULLET_COUNT; i++) {
             Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
         }
     }
 
-    public override void look()
-    {
+    public override void look() {
         double y = joystick.Direction.y;
         double x = joystick.Direction.x;
 
-        if ((x == 0) && (y==0) && (prevJoystick.x != 0) && (prevJoystick.y != 0))
-        {
-            shot();
+
+        if ((prevJoystick.x != 0) && (prevJoystick.y != 0) && (x == 0) && (y == 0)) {
+            if (startJoystick == prevJoystick)
+                shot(270f);
+            else
+                shot();
+
         }
 
-        prevJoystick = new Vector2 ((float)x, (float)y);
+        if ((prevJoystick.x == 0) && (prevJoystick.y == 0) && (x != 0) && (y != 0)) {
+            startJoystick = joystick.Direction;
+        }
+
+
+
+
+        prevJoystick = new Vector2((float)x, (float)y);
+
+
+
+
+
 
         double del = (Math.Sqrt((x * x) + (y * y)));
 
@@ -73,14 +97,12 @@ public class ShotGun : Weapon
 
             float angle = (float)arcy * 57.32f;
 
-            if (x < 0)
-            {
+            if (x < 0) {
                 angle = 180 - angle;
-                //weapon.localScale = new Vector2(normalScale.x, -normalScale.y);
                 sprite.flipY = true;
             }
-            else sprite.flipY = false;
-            //weapon.localScale = new Vector2(normalScale.x, normalScale.y);
+            else
+                sprite.flipY = false;
 
             weapon.rotation = Quaternion.Euler(0, 0, angle);
         }
