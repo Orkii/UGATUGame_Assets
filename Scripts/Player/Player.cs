@@ -62,7 +62,12 @@ public class Player : MonoBehaviour
     {
         roof = b;
     }// Для определения потолка // Для Head
-
+    public bool getIsSticky() {
+        return isSticky;
+    }
+    public void setMoveInput(float b) {
+        moveJoyInput = b;
+    }
     public void setJumpInput(float b) {
         jumpInput = b;
     }
@@ -296,12 +301,13 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
     }
     float jumpInput = 0;
-    Vector2 moveInput;
+    float moveInput = 0;
+    float moveJoyInput = 0;
     void Update()
     {
         arm.look();
-        moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        animator.SetBool("Run", Mathf.Abs(moveInput.x) >= 0.001f);
+        moveInput = moveJoyInput + Input.GetAxisRaw("Horizontal");
+        animator.SetBool("Run", Mathf.Abs(moveInput) >= 0.001f);
         if (Input.GetKeyDown("space")) jumpInput += 1;
         if (Input.GetKeyUp("space")) jumpInput += 0;
 
@@ -320,8 +326,9 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         jump(jumpInput, timePreviousJumpButton);
-        moveX(moveInput.x);
+        moveX(moveInput);
         jumpInput = 0;
+        //moveInput = 0;
     }
     public virtual void OnTriggerStay2D(Collider2D col)
     {               //если в тригере что то есть и у обьекта тег "ground"

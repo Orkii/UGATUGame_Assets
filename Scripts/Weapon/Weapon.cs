@@ -76,7 +76,7 @@ public class ShotGun : Weapon {
 
         if ((prevJoystick.x != 0) && (prevJoystick.y != 0) && (x == 0) && (y == 0)) {
             if (startJoystick == prevJoystick) {
-                if (parentCode.getIsGround())
+                if ((parentCode.getIsGround()) || (parentCode.getIsSticky()))
                     parentCode.setJumpInput(1);
                 else { 
                     shot(270f);

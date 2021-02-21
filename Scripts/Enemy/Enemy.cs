@@ -24,8 +24,8 @@ public class Enemy : Player {
 
 
     public int i = 0;
-    float jumpInput = 0;
-    float timePreviousJumpButton = 0;
+    private float jumpInpute = 0;
+    private float timePreviousJumpButtone = 0;
     public List<GameObject> areasEnemy = new List<GameObject>();
 
     public GameObject dedPart;
@@ -34,6 +34,7 @@ public class Enemy : Player {
 
     float sign = 0;
     float prevSign = 0;
+
 
     void Update() {
 
@@ -55,17 +56,17 @@ public class Enemy : Player {
 
 
         if (trigerRight == true) {
-            jumpInput = 1;
+            jumpInpute = 1;
         }
         else
-            jumpInput = 0;
+            jumpInpute = 0;
 
-        if (jumpInput == 1) {
-            timePreviousJumpButton = 0f;
+        if (jumpInpute == 1) {
+            timePreviousJumpButtone = 0f;
         }
 
-        timePreviousJumpButton += Time.fixedDeltaTime;
-        jump(jumpInput, timePreviousJumpButton);
+        timePreviousJumpButtone += Time.fixedDeltaTime;
+        jump(jumpInpute, timePreviousJumpButtone);
         moveX(sign);
     }
 
