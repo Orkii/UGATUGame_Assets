@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     bool isSticky = false;
     float stickyPos = 0;
     float timePreviousJump = 0;
+    Animator animator;
 
     int moreJump = MORE_JUMP_COUNT;
     const float MAX_X_SPEED = MAX_X_SPEED_STICKY;
@@ -135,7 +136,7 @@ public class Player : MonoBehaviour
     }// Замедление // Вызывается в MoveX 
     public void moveX(float direction)
     {
-
+        
         moveXKey = direction;
 
         if (direction > 0)
@@ -289,19 +290,21 @@ public class Player : MonoBehaviour
         joystick = FindObjectOfType<Joystick>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         arm = new ShotGun(joystick);
+        animator = GetComponent<Animator>();
     }
     float jumpInput = 0;
     Vector2 moveInput;
     void Update()
     {
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
+        animator.SetBool("Run", Mathf.Abs(moveInput.x) >= 0.001f);
         if (Input.GetKeyDown("space")) jumpInput = 1;
         if (Input.GetKeyUp("space")) jumpInput = 0;
 
 
         if (jumpInput == 1)
         {
+            animator.SetTrigger("Jump");
             timePreviousJumpButton = 0f;
         }
         timePreviousJumpButton += Time.deltaTime;
