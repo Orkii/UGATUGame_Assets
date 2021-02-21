@@ -21,12 +21,12 @@ public class Player : MonoBehaviour
     const float STICKY_SPEED_DOWN = -3f;
     const float STICKY_JUMP_BOOST_X = 5f;
     const float DECELERATION = 12f;
-    public const int MORE_JUMP_COUNT = 1;
+    public const int MORE_JUMP_COUNT = 0;
     public bool isGround = false;
     bool isSticky = false;
     float stickyPos = 0;
     float timePreviousJump = 0;
-    Animator animator;
+    
 
     int moreJump = MORE_JUMP_COUNT;
     const float MAX_X_SPEED = MAX_X_SPEED_STICKY;
@@ -275,6 +275,7 @@ public class Player : MonoBehaviour
     public new Rigidbody2D rigidbody2D;
     new ParticleSystem particleSystem;
     SpriteRenderer spriteRenderer;
+    Animator animator;
 
 
     Weapon arm;

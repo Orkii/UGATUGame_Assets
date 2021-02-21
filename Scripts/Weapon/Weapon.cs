@@ -29,7 +29,7 @@ public class ShotGun : Weapon {
     const int BULLET_COUNT = 7;
     Rigidbody2D player;
     SpriteRenderer sprite;
-    float jumpForce = 3f;
+    float jumpForce = 10f;
 
 
 
@@ -41,9 +41,9 @@ public class ShotGun : Weapon {
     }
     public override void shot() {
         float angle = weapon.transform.rotation.eulerAngles.z + 180;
-        Vector2 boost = new Vector2(Mathf.Cos(angle / 57.32f) * bulletSpeed, Mathf.Sin(angle / 57.32f) * bulletSpeed);
+        Vector2 boost = new Vector2(Mathf.Cos(angle / 57.32f), Mathf.Sin(angle / 57.32f));
 
-        player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.x + boost.y * jumpForce);
+        player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.y + boost.y * jumpForce);
 
         for (int i = 0; i < BULLET_COUNT; i++) {
             Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
@@ -54,9 +54,9 @@ public class ShotGun : Weapon {
         Debug.Log(weapon.transform.eulerAngles);
 
         float angle = weapon.transform.rotation.eulerAngles.z + 180;
-        Vector2 boost = new Vector2(Mathf.Cos(angle / 57.32f) * bulletSpeed, Mathf.Sin(angle / 57.32f) * bulletSpeed);
+        Vector2 boost = new Vector2(Mathf.Cos(angle / 57.32f), Mathf.Sin(angle / 57.32f));
 
-        player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.x + boost.y * jumpForce);
+        player.velocity = new Vector2(player.velocity.x + boost.x * jumpForce, player.velocity.y + boost.y * jumpForce);
 
         for (int i = 0; i < BULLET_COUNT; i++) {
             Instantiate(bullet, weapon.transform.position, weapon.transform.localRotation);
