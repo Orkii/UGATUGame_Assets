@@ -287,7 +287,7 @@ public class Player : MonoBehaviour
 
     Weapon arm;
     Joystick joystick;
-
+    Joystick move;
 
     void Start()
     {
@@ -295,8 +295,12 @@ public class Player : MonoBehaviour
         particleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
         scaleX = gameObject.transform.localScale.x;
-        joystick = FindObjectOfType<Joystick>();
+        joystick = GameObject.Find("Joystick Shot").GetComponent<Joystick>();
+
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        move = GameObject.Find("Joystick Move").GetComponent<Joystick>();
+
         arm = new ShotGun(joystick);
         animator = GetComponent<Animator>();
     }
@@ -306,7 +310,8 @@ public class Player : MonoBehaviour
     void Update()
     {
         arm.look();
-        moveInput = moveJoyInput + Input.GetAxisRaw("Horizontal");
+        moveInput = moveJoyInput + Input.GetAxisRaw("Horizontal") + move.Direction.x;
+        Debug.Log(move.Direction.x);
         animator.SetBool("Run", Mathf.Abs(moveInput) >= 0.001f);
         if (Input.GetKeyDown("space")) jumpInput += 1;
         if (Input.GetKeyUp("space")) jumpInput += 0;
