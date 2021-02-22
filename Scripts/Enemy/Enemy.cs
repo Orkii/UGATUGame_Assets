@@ -51,7 +51,6 @@ public class Enemy : Player {
             jumpInpute = 1;
         }
         else jumpInpute = 0;
-        Debug.Log(jumpInpute);
     }
     void FixedUpdate() {
         if (jumpInpute == 1) {
@@ -91,6 +90,7 @@ public class Enemy : Player {
 
     public override void OnTriggerStay2D(Collider2D col) {
         if (col.gameObject.tag == "Bullet") {
+            col.gameObject.GetComponent<Bullet>().destroy();
             Destroy(col.gameObject);
             destroy();
         }

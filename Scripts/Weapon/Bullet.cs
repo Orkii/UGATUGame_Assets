@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour {
         rb = gameObject.GetComponent<Rigidbody2D>();
         particleSystem = gameObject.GetComponent<ParticleSystem>();
         collider = GetComponent<CapsuleCollider2D>();
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, - 1);
 
 
 
@@ -44,30 +45,35 @@ public class Bullet : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter2D(Collider2D col) {
+    void OnTriggerStay2D(Collider2D col) {
 
         if (col.gameObject.tag == "Floor") {
-            GetComponent<ParticleSystem>().Play();
-            Invoke("destroy", 1);
-            gameObject.GetComponent<Renderer>().enabled = false;
-            collider.enabled = false;
-            rb.velocity = new Vector2(0, 0);
-
+           
+            
+            
+            
+            
+            destroy();
         }
         else if (col.gameObject.tag == "Enemy") {
-            GetComponent<ParticleSystem>().Play();
-            Invoke("destroy", 1);
-            gameObject.GetComponent<Renderer>().enabled = false;
-            collider.enabled = false;
-            rb.velocity = new Vector2(0, 0);
-
+            
+          
             col.gameObject.GetComponent<Enemy>().destroy();
+            destroy();
         }
     }
-    void destroy() {
+    public void destroy() {
+        GetComponent<ParticleSystem>().Play();
+        gameObject.GetComponent<Renderer>().enabled = false;
+        collider.enabled = false;
+        rb.velocity = new Vector2(0, 0);
+        gameObject.GetComponent<Light>().enabled = false;
+
+        Invoke("fullDestoy", 1);
+    }
+    void fullDestoy() {
         Destroy(gameObject);
     }
-
 
 
 }

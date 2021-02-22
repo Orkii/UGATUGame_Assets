@@ -91,15 +91,7 @@ public class ShotGun : Weapon {
             startJoystick = joystick.Direction;
         }
 
-
-
-
         prevJoystick = new Vector2((float)x, (float)y);
-
-
-
-
-
 
         double del = (Math.Sqrt((x * x) + (y * y)));
 
@@ -111,11 +103,6 @@ public class ShotGun : Weapon {
             float arcy = (float)Math.Asin(tempy);
             float arcx = (float)(Math.Acos(tempx) - (Math.PI / 2));
             
-
-
-
-
-
             float angle = (float)arcy * 57.32f;
 
             if (x < 0) {
