@@ -37,6 +37,7 @@ public class Enemy_Right : MonoBehaviour {
 
     }
     void OnTriggerExit2D(Collider2D col) {
+
         try {
             parentCode.setTriggerRight(false);
         }

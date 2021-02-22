@@ -37,9 +37,6 @@ public class Enemy : Player {
 
 
     void Update() {
-
-    }
-    void FixedUpdate() {
         sign = Math.Sign(areasEnemy[i].transform.position.x - transform.position.x);
 
         if (prevSign != sign) {
@@ -50,17 +47,13 @@ public class Enemy : Player {
         }
         prevSign = sign;
 
-
-
-
-
-
         if (trigerRight == true) {
             jumpInpute = 1;
         }
-        else
-            jumpInpute = 0;
-
+        else jumpInpute = 0;
+        Debug.Log(jumpInpute);
+    }
+    void FixedUpdate() {
         if (jumpInpute == 1) {
             timePreviousJumpButtone = 0f;
         }
@@ -70,14 +63,22 @@ public class Enemy : Player {
         moveX(sign);
     }
 
-
-    void OnCollisionStay2D() { }
+    public override void OnCollisionStay2D(Collision2D col) {
+        if (getIsGround() == false) {
+            if (col.gameObject.tag == "Floor") {
+                setIsSticky(true);
+                setStickyPos(col.GetContact(1).point.x); //как работает?
+                ///
+                // if (moveInput.x == 0)
+                //   setIsSticky(false);
+            }
+        }
+    }
     void OnCollisionEnter2D(Collision2D col) {
         if (col.gameObject.tag == "Sticky") {
             setIsSticky(true);
             setStickyPos(col.GetContact(1).point.x);
         }
-
     }
     public override void OnCollisionExit2D(Collision2D col) {
         if (col.gameObject.tag == "Floor") {
@@ -91,25 +92,20 @@ public class Enemy : Player {
     public override void OnTriggerStay2D(Collider2D col) {
         if (col.gameObject.tag == "Bullet") {
             Destroy(col.gameObject);
-            OnDestroy();
-
+            destroy();
         }
     }
     public override void OnTriggerExit2D(Collider2D col) {
 
     }
-    void OnDestroy() {
-        try {
-            Debug.Log("Enemy Помер");
-            GameObject a = Instantiate(dedPart, transform.position, Quaternion.identity);
-            Destroy(a, 0.5f);
 
-            Destroy(gameObject);
-        }
-        catch {
-            Debug.Log("F");
-        }
+    public void destroy() {
+        Debug.Log("Enemy Помер");
+        GameObject a = Instantiate(dedPart, transform.position, Quaternion.identity);
+        Destroy(a, 0.5f);
+        Destroy(gameObject);
     }
+
 
 
 }

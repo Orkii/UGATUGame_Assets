@@ -61,7 +61,7 @@ public class Bullet : MonoBehaviour {
             collider.enabled = false;
             rb.velocity = new Vector2(0, 0);
 
-            Destroy(col.gameObject);
+            col.gameObject.GetComponent<Enemy>().destroy();
         }
     }
     void destroy() {

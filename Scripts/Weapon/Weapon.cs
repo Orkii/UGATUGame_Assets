@@ -110,8 +110,6 @@ public class ShotGun : Weapon {
             float tempy = (float)(y / del);
             float arcy = (float)Math.Asin(tempy);
             float arcx = (float)(Math.Acos(tempx) - (Math.PI / 2));
-            Debug.Log(arcy);
-            Debug.Log(arcx);
             
 
 
@@ -128,13 +126,9 @@ public class ShotGun : Weapon {
                 sprite.flipY = false;
 
             weapon.rotation = Quaternion.Euler(0, 0, angle);
-
-
-            
-
-
-
-            weapon.localPosition = new Vector2(arcx / 10, arcy / 10);
+            try {
+                weapon.localPosition = new Vector2(arcx / 10, arcy / 10);
+            } catch { }
         }
         
     }
