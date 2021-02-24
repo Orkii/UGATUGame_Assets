@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
+    //public List<Scene> scenes;
     public void ChangeScenes(int numberOfScenes)
     {
         SceneManager.LoadScene(numberOfScenes);
