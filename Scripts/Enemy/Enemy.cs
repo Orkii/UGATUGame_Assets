@@ -89,11 +89,13 @@ public class Enemy : Player {
     }
 
     public override void OnTriggerStay2D(Collider2D col) {
+        /*
         if (col.gameObject.tag == "Bullet") {
             col.gameObject.GetComponent<Bullet>().destroy();
             Destroy(col.gameObject);
             destroy();
         }
+        */
     }
     public override void OnTriggerExit2D(Collider2D col) {
 

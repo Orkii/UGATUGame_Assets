@@ -266,8 +266,9 @@ public class Player : MonoBehaviour
     public  void win()
     {
         GameObject win;
-        win = canvas.transform.Find("Win").gameObject;
+        win = canvas.transform.Find("Finish window").gameObject;
         win.SetActive(true);
+
     }// Пабеда // 
 
 
@@ -291,6 +292,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        canvas = GameObject.Find("Canvas");
         rigidbody2D = GetComponent<Rigidbody2D>();
         particleSystem = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
@@ -311,7 +313,6 @@ public class Player : MonoBehaviour
     {
         arm.look();
         moveInput = moveJoyInput + Input.GetAxisRaw("Horizontal") + move.Direction.x;
-        Debug.Log(move.Direction.x);
         animator.SetBool("Run", Mathf.Abs(moveInput) >= 0.001f);
         if (Input.GetKeyDown("space")) jumpInput += 1;
         if (Input.GetKeyUp("space")) jumpInput += 0;
@@ -328,12 +329,19 @@ public class Player : MonoBehaviour
         
     }
 
+
     void FixedUpdate()
     {
         jump(jumpInput, timePreviousJumpButton);
         moveX(moveInput);
         jumpInput = 0;
         //moveInput = 0;
+    }
+    public virtual void OnTriggerEnter2D(Collider2D col) {
+        if (col.tag == "Finish") {
+            win();
+            Debug.Log("1");
+        }
     }
     public virtual void OnTriggerStay2D(Collider2D col)
     {               //если в тригере что то есть и у обьекта тег "ground"
